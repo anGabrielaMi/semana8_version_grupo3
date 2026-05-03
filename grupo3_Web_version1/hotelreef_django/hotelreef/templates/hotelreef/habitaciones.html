@@ -1,0 +1,38 @@
+{% extends 'hotelreef/base.html' %}
+{% block title %}Habitaciones disponibles{% endblock %}
+{% block content %}
+    <h1>Habitaciones disponibles</h1>
+
+    <table border="1" style="margin: 20px auto;">
+        <tr>
+            <th>Imagen</th>
+            <th>Hotel</th>
+            <th>Tipo</th>
+            <th>Capacidad</th>
+            <th>Precio por noche</th>
+            <th></th>
+        </tr>
+        {% for h in habitaciones %}
+        <tr>
+            <td>
+                {% if h.imagen %}
+                    <img src="{{ h.imagen.url }}" alt="{{ h.tipo }}" height="160" style="border-radius: 6px;">
+                {% else %}
+                    <span style="color: gray;">Sin imagen</span>
+                {% endif %}
+            </td>
+            <td>{{ h.hotel.nombre }}</td>
+            <td>{{ h.tipo }}</td>
+            <td>{{ h.capacidad }} personas</td>
+            <td>${{ h.precio|floatformat:0 }}</td>
+            <td>
+                <a href="{% url 'reserva_nueva' %}?habitacion_id={{ h.habitacion_id }}">
+                    <button class="btn-primario">Reservar</button>
+                </a>
+            </td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="6">No hay habitaciones disponibles.</td></tr>
+        {% endfor %}
+    </table>
+{% endblock %}

@@ -1,0 +1,30 @@
+{% extends 'hotelreef/base.html' %}
+{% block title %}Nueva Habitación{% endblock %}
+{% block content %}
+    <h1>Nueva Habitación</h1>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <label>Hotel:</label><br>
+        <select name="hotel_id" required>
+            {% for h in hoteles %}
+                <option value="{{ h.hotel_id }}">{{ h.nombre }}</option>
+            {% endfor %}
+        </select><br><br>
+
+        <label>Tipo:</label><br>
+        <input type="text" name="tipo" required><br><br>
+
+        <label>Capacidad (personas):</label><br>
+        <input type="number" name="capacidad" min="1" required><br><br>
+
+        <label>Precio por noche:</label><br>
+        <input type="number" name="precio" step="0.01" required><br><br>
+
+        <label>Imagen de la habitación:</label><br>
+        <input type="file" name="imagen" accept="image/*"><br><br>
+
+        <button type="submit" class="btn-primario">Guardar</button>
+        <a href="{% url 'habitaciones' %}"><button type="button" class="btn-secundario">Cancelar</button></a>
+    </form>
+{% endblock %}

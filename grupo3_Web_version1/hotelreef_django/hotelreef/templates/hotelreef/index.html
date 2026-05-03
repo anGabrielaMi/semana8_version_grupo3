@@ -1,0 +1,31 @@
+{% extends 'hotelreef/base.html' %}
+{% load static %}
+
+{% block title %}Hotel Pacific Reef - Inicio{% endblock %}
+
+{% block content %}
+    <div style="text-align: center; padding: 40px 20px;">
+
+        <img src="{% static 'img/coral.webp' %}" alt="Hotel Pacific Reef" height="300"
+             style="border-radius: 12px; margin-bottom: 30px;">
+
+        {% if request.session.usuario_id %}
+            <h1>Bienvenido de vuelta, {{ request.session.usuario_nombre }}</h1>
+            <p>¿Qué deseas hacer hoy?</p>
+            <div style="margin-top: 20px;">
+                <a href="{% url 'habitaciones' %}"><button class="btn-primario">Ver habitaciones</button></a>
+                <a href="{% url 'reservas' %}"><button class="btn-secundario">Mis reservas</button></a>
+            </div>
+        {% else %}
+            <h1>Bienvenido a Hotel Pacific Reef</h1>
+            <p>Descubre nuestras habitaciones y haz tu reserva en minutos.</p>
+              {% comment %}
+            <div style="margin-top: 20px;">
+                <a href="{% url 'login' %}"><button class="btn-primario">Iniciar sesión</button></a>
+                <a href="{% url 'registrar' %}"><button class="btn-secundario">Crear cuenta</button></a>
+            </div>
+              {% endcomment %}
+        {% endif %}
+
+    </div>
+{% endblock %}

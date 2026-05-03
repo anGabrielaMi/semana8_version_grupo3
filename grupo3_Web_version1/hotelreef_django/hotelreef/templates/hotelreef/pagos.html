@@ -1,0 +1,28 @@
+{% extends 'hotelreef/base.html' %}
+{% block title %}Mis Pagos{% endblock %}
+{% block content %}
+    <h1>Mis Pagos</h1>
+
+    <table border="1" style="margin: 20px auto;">
+        <tr>
+            <th>Hotel</th>
+            <th>Habitación</th>
+            <th>Fecha entrada</th>
+            <th>Fecha salida</th>
+            <th>Monto</th>
+        </tr>
+        {% for p in pagos %}
+        <tr>
+            <td>{{ p.reserva.habitacion.hotel.nombre }}</td>
+            <td>{{ p.reserva.habitacion.tipo }}</td>
+            <td>{{ p.reserva.fecha_entrada }}</td>
+            <td>{{ p.reserva.fecha_salida }}</td>
+            <td>${{ p.monto }}</td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="5">No tienes pagos registrados.</td>
+        </tr>
+        {% endfor %}
+    </table>
+{% endblock %}

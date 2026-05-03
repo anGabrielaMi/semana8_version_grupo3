@@ -1,0 +1,49 @@
+{% extends 'hotelreef/base.html' %}
+{% block title %}{{ hotel.nombre }}{% endblock %}
+{% block content %}
+    <div style="text-align: center; padding: 20px;">
+
+        <h1>{{ hotel.nombre }}</h1>
+        <p>{{ hotel.direccion }} — Categoría: {{ hotel.categoria|default:"Sin categoría" }}</p>
+
+        <h2>Habitaciones disponibles</h2>
+
+        <table border="1" style="margin: 20px auto;">
+            <tr>
+                <th>Imagen</th>
+                <th>Tipo</th>
+                <th>Capacidad</th>
+                <th>Precio por noche</th>
+                <th></th>
+            </tr>
+            {% for hab in habitaciones %}
+            <tr>
+                <td>
+                    {% if hab.imagen %}
+                        <img src="{{ hab.imagen.url }}" alt="{{ hab.tipo }}" height="160" style="border-radius: 6px;">
+                    {% else %}
+                        <span style="color: gray;">Sin imagen</span>
+                    {% endif %}
+                </td>
+                <td>{{ hab.tipo }}</td>
+                <td>{{ hab.capacidad }} personas</td>
+                <td>${{ hab.precio|floatformat:0 }}</td>
+                <td>
+                    <a href="{% url 'reserva_nueva' %}?habitacion_id={{ hab.habitacion_id }}">
+                        <button class="btn-primario">Reservar</button>
+                    </a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="5">Este hotel no tiene habitaciones disponibles.</td>
+            </tr>
+            {% endfor %}
+        </table>
+
+        <p style="margin-top: 20px;">
+            <a href="{% url 'hoteles' %}">← Volver a hoteles</a>
+        </p>
+
+    </div>
+{% endblock %}

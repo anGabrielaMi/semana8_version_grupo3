@@ -1,0 +1,21 @@
+{% extends 'hotelreef/base.html' %}
+
+{% block title %}Nuevo Hotel{% endblock %}
+
+{% block content %}
+    <h1>Nuevo Hotel</h1>
+    <form method="post">
+        {% csrf_token %}
+        <label>Nombre:</label><br>
+        <input type="text" name="nombre" required><br><br>
+
+        <label>Dirección:</label><br>
+        <input type="text" name="direccion" required><br><br>
+
+        <label>Categoría:</label><br>
+        <input type="text" name="categoria"><br><br>
+
+        <button type="submit" class="btn-primario">Guardar Hotel</button>
+        <a href="{% url 'hoteles' %}"><button type="button" class="btn-secundario">Cancelar</button></a>
+    </form>
+{% endblock %}

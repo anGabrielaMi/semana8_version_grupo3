@@ -1,0 +1,32 @@
+{% extends 'hotelreef/base.html' %}
+{% block title %}Nueva Reseña{% endblock %}
+{% block content %}
+    <h1>Escribir Reseña</h1>
+    <form method="post">
+        {% csrf_token %}
+
+        <input type="hidden" name="usuario_id" value="{{ request.session.usuario_id }}">
+
+        <label>Hotel:</label><br>
+        <select name="hotel_id" required>
+            {% for h in hoteles %}
+                <option value="{{ h.hotel_id }}">{{ h.nombre }}</option>
+            {% endfor %}
+        </select><br><br>
+
+        <label>Comentario:</label><br>
+        <textarea name="comentario" rows="4" cols="40" required></textarea><br><br>
+
+        <label>Puntuación:</label><br>
+        <select name="puntuacion" required>
+            <option value="1">1 — Muy malo</option>
+            <option value="2">2 — Malo</option>
+            <option value="3">3 — Regular</option>
+            <option value="4">4 — Bueno</option>
+            <option value="5">5 — Excelente</option>
+        </select><br><br>
+
+        <button type="submit" class="btn-primario">Publicar Reseña</button>
+        <a href="{% url 'resenas' %}"><button type="button" class="btn-secundario">Cancelar</button></a>
+    </form>
+{% endblock %}

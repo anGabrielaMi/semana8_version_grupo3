@@ -1,0 +1,30 @@
+{% extends 'hotelreef/base.html' %}
+{% block title %}Editar Reserva{% endblock %}
+{% block content %}
+    <div style="text-align: center; padding: 40px 20px;">
+        <h1>Editar Reserva</h1>
+
+        <p>
+            {{ reserva.habitacion.hotel.nombre }} — {{ reserva.habitacion.tipo }}
+        </p>
+
+        <form method="post">
+            {% csrf_token %}
+
+            <label for="fecha_entrada">Fecha de entrada:</label><br>
+            <input type="date" id="fecha_entrada" name="fecha_entrada"
+                   value="{{ reserva.fecha_entrada|date:'Y-m-d' }}" required><br><br>
+
+            <label for="fecha_salida">Fecha de salida:</label><br>
+            <input type="date" id="fecha_salida" name="fecha_salida"
+                   value="{{ reserva.fecha_salida|date:'Y-m-d' }}" required><br><br>
+
+            <label for="cantidad_personas">Cantidad de personas:</label><br>
+            <input type="number" id="cantidad_personas" name="cantidad_personas"
+                   value="{{ reserva.cantidad_personas }}" min="1" required><br><br>
+
+            <button type="submit" class="btn-primario">Guardar cambios</button>
+            <a href="{% url 'reservas' %}"><button type="button" class="btn-secundario">Cancelar</button></a>
+        </form>
+    </div>
+{% endblock %}

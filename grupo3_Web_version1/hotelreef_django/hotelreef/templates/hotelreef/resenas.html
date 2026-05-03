@@ -1,0 +1,30 @@
+{% extends 'hotelreef/base.html' %}
+{% block title %}Reseñas{% endblock %}
+{% block content %}
+    <h1>Reseñas de huéspedes</h1>
+
+    {% if request.session.usuario_id %}
+        <a href="{% url 'resena_nueva' %}"><button class="btn-primario">+ Escribir reseña</button></a>
+    {% endif %}
+
+    <table border="1" style="margin: 20px auto;">
+        <tr>
+            <th>Hotel</th>
+            <th>Huésped</th>
+            <th>Comentario</th>
+            <th>Puntuación</th>
+        </tr>
+        {% for r in resenas %}
+        <tr>
+            <td>{{ r.hotel.nombre }}</td>
+            <td>{{ r.usuario.nombre }}</td>
+            <td>{{ r.comentario }}</td>
+            <td>{{ r.puntuacion }}/5</td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="4">Aún no hay reseñas. ¡Sé el primero en comentar!</td>
+        </tr>
+        {% endfor %}
+    </table>
+{% endblock %}

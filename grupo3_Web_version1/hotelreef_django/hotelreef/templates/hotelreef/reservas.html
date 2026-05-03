@@ -1,0 +1,41 @@
+{% extends 'hotelreef/base.html' %}
+{% block title %}Mis Reservas{% endblock %}
+{% block content %}
+    <h1>Mis Reservas</h1>
+    <a href="{% url 'habitaciones' %}"><button class="btn-primario">+ Reservar habitación</button></a>
+
+    <table border="1" style="margin: 20px auto;">
+        <tr>
+            <th>Hotel</th>
+            <th>Habitación</th>
+            <th>Entrada</th>
+            <th>Salida</th>
+            <th>Personas</th>
+            <th></th>
+        </tr>
+        {% for r in reservas %}
+        <tr>
+            <td>{{ r.habitacion.hotel.nombre }}</td>
+            <td>{{ r.habitacion.tipo }}</td>
+            <td>{{ r.fecha_entrada }}</td>
+            <td>{{ r.fecha_salida }}</td>
+            <td>{{ r.cantidad_personas }}</td>
+            <td>
+                <a href="{% url 'reserva_editar' r.reserva_id %}">
+                    <button class="btn-secundario">Editar</button>
+                </a>
+                <form method="post" action="{% url 'reserva_eliminar' r.reserva_id %}"
+                      style="display: inline;"
+                      onsubmit="return confirm('¿Seguro que deseas cancelar esta reserva?')">
+                    {% csrf_token %}
+                    <button type="submit" class="btn-danger">Cancelar</button>
+                </form>
+            </td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="6">Aún no tienes reservas. <a href="{% url 'habitaciones' %}">Ver habitaciones disponibles</a></td>
+        </tr>
+        {% endfor %}
+    </table>
+{% endblock %}

@@ -1,0 +1,37 @@
+{% extends 'hotelreef/base.html' %}
+
+{% block title %}Crear Cuenta{% endblock %}
+
+{% block content %}
+    <div style="text-align: center; padding: 40px 20px;">
+        <h1>Crear Cuenta</h1>
+
+        <form method="post" action="{% url 'registrar' %}">
+            {% csrf_token %}
+
+            <input type="hidden" name="rol" value="cliente">
+
+            <label for="nombre">Nombre:</label><br>
+            <input type="text" id="nombre" name="nombre" required><br><br>
+
+            <label for="apellido">Apellido:</label><br>
+            <input type="text" id="apellido" name="apellido" required><br><br>
+
+            <label for="correo">Correo electrónico:</label><br>
+            <input type="email" id="correo" name="correo_electronico" required><br><br>
+
+            <label for="telefono">Teléfono:</label><br>
+            <input type="text" id="telefono" name="telefono"><br><br>
+
+            <label for="clave">Contraseña:</label><br>
+            <input type="password" id="clave" name="contraseña" required><br><br>
+
+            <button type="submit" class="btn-primario">Crear Cuenta</button>
+        </form>
+
+        <p style="margin-top: 20px;">
+            ¿Ya tienes cuenta? <a href="{% url 'login' %}">Inicia sesión aquí</a>
+        </p>
+
+    </div>
+{% endblock %}

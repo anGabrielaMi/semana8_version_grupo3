@@ -1,0 +1,41 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>{% block title %}Hotel Pacific Reef{% endblock %}</title>
+  <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+    <header>
+        <div class="logo_container">
+            <img src="{% static 'img/1-HPR.png' %}" alt="Logo del sitio" class="logo">
+        </div>
+        <nav>
+            <a href="{% url 'index' %}">Inicio</a>
+            <a href="{% url 'habitaciones' %}">Habitaciones</a>
+              {% comment %}
+            <a href="{% url 'hoteles' %}">Hoteles</a>
+              {% endcomment %}
+
+            {% if request.session.usuario_id %}
+                <span>Hola, {{ request.session.usuario_nombre }}</span>
+                <a href="{% url 'logout' %}">Cerrar sesión</a>
+            {% else %}
+                <a href="{% url 'login' %}">Iniciar Sesión</a>
+                <a href="{% url 'registrar' %}">Registrar</a>
+                <a href="{% url 'recuperar_psswd' %}">Recuperar Contraseña</a>
+            {% endif %}
+            <a href="{% url 'reservas' %}">Reservas</a>
+            <a href="{% url 'resenas' %}">Reseñas</a>
+            <a href="{% url 'pagos' %}">Pagos</a>
+        </nav>
+    </header>
+
+    {% block content %}{% endblock %}
+
+    <footer>
+        <p>&copy;2026 Hotel Pacific Reef. Todos los derechos reservados.</p>
+    </footer>
+</body>
+</html>

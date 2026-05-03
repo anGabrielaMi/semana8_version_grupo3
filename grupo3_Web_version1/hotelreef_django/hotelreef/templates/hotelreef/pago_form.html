@@ -1,0 +1,45 @@
+{% extends 'hotelreef/base.html' %}
+{% block title %}Confirmar Pago{% endblock %}
+{% block content %}
+    <div style="text-align: center; padding: 40px 20px;">
+        <h1>Confirmar Pago</h1>
+        <form method="post">
+            {% csrf_token %}
+
+            <label>Reserva:</label><br>
+            <select name="reserva_id" id="reserva_select" required onchange="calcularMonto()">
+                {% for r in reservas %}
+                    <option value="{{ r.reserva_id }}"
+                        data-precio="{{ r.habitacion.precio }}"
+                        data-entrada="{{ r.fecha_entrada|date:'Y-m-d' }}"
+                        data-salida="{{ r.fecha_salida|date:'Y-m-d' }}"
+                        {% if r.reserva_id|stringformat:"s" == reserva_preseleccionada %}selected{% endif %}>
+                        {{ r.habitacion.hotel.nombre }} — {{ r.habitacion.tipo }} | {{ r.fecha_entrada }} al {{ r.fecha_salida }}
+                    </option>
+                {% empty %}
+                    <option disabled>No tienes reservas disponibles</option>
+                {% endfor %}
+            </select><br><br>
+
+            <p>Total a pagar: <strong id="monto_display">Calculando...</strong></p>
+
+            <button type="submit" class="btn-primario">Confirmar Pago</button>
+            <a href="{% url 'pagos' %}"><button type="button" class="btn-secundario">Cancelar</button></a>
+        </form>
+    </div>
+
+    <script>
+        function calcularMonto() {
+            const select = document.getElementById('reserva_select');
+            const opcion = select.options[select.selectedIndex];
+            const precio = parseFloat(opcion.dataset.precio);
+            const entrada = new Date(opcion.dataset.entrada);
+            const salida = new Date(opcion.dataset.salida);
+            const noches = (salida - entrada) / (1000 * 60 * 60 * 24);
+            const monto = precio * noches;
+            document.getElementById('monto_display').textContent = '$' + monto.toLocaleString('es-CL');
+        }
+        // Calcular al cargar la página
+        window.onload = calcularMonto;
+    </script>
+{% endblock %}
