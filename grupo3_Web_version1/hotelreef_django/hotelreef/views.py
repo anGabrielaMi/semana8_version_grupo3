@@ -48,15 +48,36 @@ def logout_view(request):
 def registrar(request):
     """GET: muestra formulario. POST: crea nuevo usuario."""
     if request.method == 'POST':
+        nombre = request.POST.get('nombre')
+        apellido = request.POST.get('apellido')
+        correo = request.POST.get('correo_electronico')
+        telefono = request.POST.get('telefono') or None
+        rol = request.POST.get('rol')
+        clave = request.POST.get('contraseña')
+        clave2 = request.POST.get('contraseña2')
+
+        # Validar que las contraseñas coincidan
+        if clave != clave2:
+            return render(request, 'hotelreef/registrar.html', {
+                'error': 'Las contraseñas no coinciden.'
+            })
+
+        # Validar que el correo no esté ya registrado
+        if Usuario.objects.filter(correo_electronico=correo).exists():
+            return render(request, 'hotelreef/registrar.html', {
+                'error': 'Ya existe una cuenta con ese correo electrónico.'
+            })
+
         Usuario.objects.create(
-            nombre=request.POST.get('nombre'),
-            apellido=request.POST.get('apellido'),
-            correo_electronico=request.POST.get('correo_electronico'),
-            telefono=request.POST.get('telefono') or None,
-            rol=request.POST.get('rol'),
-            contrasena=request.POST.get('contraseña'),
+            nombre=nombre,
+            apellido=apellido,
+            correo_electronico=correo,
+            telefono=telefono,
+            rol=rol,
+            contrasena=clave,
         )
-        return redirect('index')
+        return redirect('login')  # redirige a login en vez de index
+
     return render(request, 'hotelreef/registrar.html')
 
 
